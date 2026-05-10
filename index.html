@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เซียมซี บ้านหมื่นมงคล • 萬吉堂 • บ่วงปอตึ้ง</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Serif+Thai:wght@300;400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F5D76E;
+    --gold-dark: #8B6914;
+    --crimson: #8B0000;
+    --crimson-light: #C0392B;
+    --jade: #1A5C3A;
+    --jade-light: #27AE60;
+    --ink: #1A1008;
+    --parchment: #F5ECD7;
+    --parchment-dark: #E8D5A3;
+    --cloud: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0D0806;
+    font-family: 'Noto Serif Thai', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Starfield background ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(139,0,0,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 80%, rgba(212,160,23,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 60%, rgba(26,92,58,0.2) 0%, transparent 60%),
+      #0D0806;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 2px solid rgba(212,160,23,0.3);
+    background: linear-gradient(180deg, rgba(139,0,0,0.4) 0%, transparent 100%);
+  }
+
+  .header-emblem {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 20px rgba(212,160,23,0.8));
+  }
+
+  .header-title-th {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: clamp(24px, 5vw, 42px);
+    font-weight: 700;
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(212,160,23,0.6), 2px 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+  }
+
+  .header-title-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(16px, 3vw, 26px);
+    font-weight: 600;
+    color: var(--crimson-light);
+    text-shadow: 0 0 20px rgba(192,57,43,0.5);
+    letter-spacing: 8px;
+    margin-bottom: 2px;
+  }
+
+  .header-subtitle {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 14px;
+    color: rgba(212,160,23,0.6);
+    letter-spacing: 3px;
+  }
+
+  .header-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-top: 16px;
+  }
+  .header-divider::before,
+  .header-divider::after {
+    content: ''; flex: 1; max-width: 200px;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .header-divider span { color: var(--gold); font-size: 20px; }
+
+  /* ── Controls ── */
+  .controls {
+    position: relative; z-index: 10;
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 10px; padding: 20px;
+  }
+
+  .btn {
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold); opacity: 0; transition: opacity 0.3s;
+  }
+  .btn:hover::before { opacity: 0.15; }
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .btn.active { background: rgba(212,160,23,0.2); border-color: var(--gold); color: var(--gold); }
+
+  /* ── Grid ── */
+  .grid {
+    position: relative; z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 20px 24px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── Card ── */
+  .card {
+    position: relative;
+    aspect-ratio: 2/3.2;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+  }
+  .card:hover { transform: translateY(-8px) scale(1.02); }
+  .card:hover .card-glow { opacity: 1; }
+
+  .card-glow {
+    position: absolute; inset: -4px;
+    border-radius: 2px;
+    background: radial-gradient(ellipse at center, rgba(212,160,23,0.4), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    background: var(--parchment);
+    border: 3px solid var(--gold-dark);
+    overflow: hidden;
+    box-shadow:
+      inset 0 0 60px rgba(139,0,0,0.08),
+      0 8px 40px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(212,160,23,0.2);
+  }
+
+  /* ── Nezha background illustration ── */
+  .card-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  /* SVG Nezha warrior illustration */
+  .nezha-art {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    opacity: 0.18;
+    filter: sepia(1) saturate(0.5);
+    pointer-events: none;
+  }
+
+  /* Decorative background layers */
+  .card-bg-gradient {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(139,0,0,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 20%, rgba(212,160,23,0.08) 0%, transparent 60%);
+  }
+
+  /* Cloud pattern */
+  .card-clouds {
+    position: absolute; inset: 0;
+    opacity: 0.06;
+    background-image:
+      radial-gradient(circle 40px at 20% 30%, var(--crimson) 0%, transparent 100%),
+      radial-gradient(circle 30px at 80% 25%, var(--crimson) 0%, transparent 100%),
+      radial-gradient(circle 25px at 50% 70%, var(--gold-dark) 0%, transparent 100%);
+  }
+
+  /* Flame aura behind Nezha */
+  .card-aura {
+    position: absolute;
+    bottom: 10%; left: 50%; transform: translateX(-50%);
+    width: 70%; height: 60%;
+    background: radial-gradient(ellipse at 50% 80%,
+      rgba(212,160,23,0.15) 0%,
+      rgba(139,0,0,0.08) 40%,
+      transparent 70%);
+    filter: blur(20px);
+  }
+
+  /* Lotus pattern */
+  .lotus-pattern {
+    position: absolute;
+    width: 100%; height: 100%;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(212,160,23,0.03) 30px,
+      rgba(212,160,23,0.03) 31px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 30px,
+      rgba(212,160,23,0.03) 30px,
+      rgba(212,160,23,0.03) 31px
+    );
+  }
+
+  /* ── Decorative border frame ── */
+  .card-frame {
+    position: absolute; inset: 8px;
+    border: 1px solid rgba(212,160,23,0.35);
+    pointer-events: none;
+  }
+  .card-frame::before, .card-frame::after {
+    content: ''; position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold);
+  }
+  .card-frame::before {
+    top: -2px; left: -2px;
+    border-top: 2px solid; border-left: 2px solid;
+  }
+  .card-frame::after {
+    bottom: -2px; right: -2px;
+    border-bottom: 2px solid; border-right: 2px solid;
+  }
+  .card-frame-corners::before, .card-frame-corners::after {
+    content: ''; position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold);
+  }
+  .card-frame-corners::before {
+    top: -2px; right: -2px;
+    border-top: 2px solid; border-right: 2px solid;
+  }
+  .card-frame-corners::after {
+    bottom: -2px; left: -2px;
+    border-bottom: 2px solid; border-left: 2px solid;
+  }
+
+  /* ── Top banner ── */
+  .card-top-banner {
+    position: relative; z-index: 5;
+    background: linear-gradient(135deg, var(--crimson) 0%, #5C0000 100%);
+    border-bottom: 2px solid var(--gold-dark);
+    padding: 10px 12px 8px;
+    text-align: center;
+  }
+
+  .banner-th {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    line-height: 1.3;
+  }
+
+  .banner-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(245,215,110,0.8);
+    letter-spacing: 4px;
+    margin-top: 2px;
+  }
+
+  /* ── Slip number badge ── */
+  .slip-number {
+    position: relative; z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px 0 8px;
+    gap: 10px;
+  }
+  .slip-number::before, .slip-number::after {
+    content: ''; flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent);
+    margin: 0 12px;
+  }
+
+  .slip-num-circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    border: 2px solid var(--gold-light);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(212,160,23,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+    flex-shrink: 0;
+  }
+  .slip-num-circle span {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  /* ── Level badge ── */
+  .slip-level {
+    position: relative; z-index: 5;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .level-pill {
+    display: inline-block;
+    padding: 3px 16px;
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-radius: 20px;
+  }
+  .level-สูง   { background: rgba(26,92,58,0.2);  color: #4CAF50; border: 1px solid rgba(76,175,80,0.4); }
+  .level-ดี    { background: rgba(212,160,23,0.2); color: var(--gold); border: 1px solid rgba(212,160,23,0.4); }
+  .level-กลาง  { background: rgba(30,100,150,0.2); color: #64B5F6; border: 1px solid rgba(100,181,246,0.4); }
+  .level-ต่ำ   { background: rgba(139,0,0,0.2);   color: #EF5350; border: 1px solid rgba(239,83,80,0.4); }
+  .level-ปานกลาง { background: rgba(80,80,80,0.2); color: #BDBDBD; border: 1px solid rgba(189,189,189,0.4); }
+
+  .tones-text {
+    font-size: 10px;
+    color: rgba(212,160,23,0.5);
+    letter-spacing: 1px;
+    margin-top: 3px;
+  }
+
+  /* ── Divider dragon ── */
+  .divider-ornament {
+    position: relative; z-index: 5;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(212,160,23,0.5);
+    letter-spacing: 4px;
+    margin: 4px 0;
+    line-height: 1;
+  }
+
+  /* ── Thai verse ── */
+  .verse-section {
+    position: relative; z-index: 5;
+    padding: 8px 16px;
+  }
+
+  .verse-label {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 9px;
+    color: rgba(212,160,23,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .verse-line {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 11.5px;
+    color: var(--ink);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  /* ── Separator ── */
+  .card-sep {
+    position: relative; z-index: 5;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,160,23,0.3), transparent);
+    margin: 6px 16px;
+  }
+
+  /* ── Chinese verse ── */
+  .chinese-section {
+    position: relative; z-index: 5;
+    padding: 4px 16px 8px;
+    text-align: center;
+  }
+
+  .chinese-label {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 9px;
+    color: rgba(139,0,0,0.6);
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+  }
+
+  .chinese-line {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--crimson);
+    line-height: 1.8;
+    letter-spacing: 1px;
+  }
+
+  /* ── Bottom seal ── */
+  .card-seal {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 6px 0 10px;
+  }
+  .seal-circle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(139,0,0,0.4);
+    color: rgba(139,0,0,0.5);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+  }
+  .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal-card {
+    position: relative;
+    max-width: 480px; width: 100%;
+    background: var(--parchment);
+    border: 3px solid var(--gold-dark);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 60px rgba(212,160,23,0.2);
+    animation: slideUp 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    overflow: hidden;
+  }
+
+  @keyframes slideUp { from { transform: translateY(40px) scale(0.95); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  .modal-close {
+    position: absolute; top: 12px; right: 12px; z-index: 10;
+    width: 32px; height: 32px;
+    background: rgba(139,0,0,0.8);
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    cursor: pointer; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--crimson); }
+
+  .modal-body { padding: 20px 24px 24px; }
+
+  .modal-num { font-family: 'Cinzel Decorative', serif; font-size: 11px; color: var(--gold-dark); letter-spacing: 3px; }
+  .modal-title-th { font-family: 'Noto Serif Thai', serif; font-size: 22px; font-weight: 700; color: var(--crimson); margin: 4px 0; }
+  .modal-level { font-size: 14px; color: var(--gold-dark); font-weight: 600; margin-bottom: 12px; }
+
+  .modal-sep { height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); margin: 12px 0; }
+
+  .modal-section-label { font-size: 10px; color: var(--gold-dark); letter-spacing: 3px; margin-bottom: 6px; font-weight: 600; }
+
+  .modal-thai-verse { font-family: 'Noto Serif Thai', serif; font-size: 15px; line-height: 2; color: #3A2010; }
+  .modal-chinese-verse { font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2; color: var(--crimson); font-weight: 600; letter-spacing: 1px; }
+  .modal-pinyin { font-size: 11px; color: #888; font-style: italic; line-height: 1.8; margin-top: 6px; }
+
+  /* Print button */
+  .btn-print {
+    margin-top: 16px; width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, var(--crimson), #5C0000);
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 14px; cursor: pointer; letter-spacing: 2px;
+    transition: all 0.3s;
+  }
+  .btn-print:hover { background: linear-gradient(135deg, #A00000, var(--crimson)); }
+
+  /* Filter controls */
+  .filter-label {
+    color: rgba(212,160,23,0.5);
+    font-size: 12px;
+    letter-spacing: 2px;
+    display: flex; align-items: center;
+    padding: 0 10px;
+  }
+
+  /* SVG Nezha warrior */
+  .nezha-svg { width: 100%; height: 100%; }
+
+  @media print {
+    body { background: white; }
+    .controls, .page-header, .modal-overlay { display: none !important; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 10px; }
+    .card { break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
+    .verse-line { font-size: 10px; }
+    .chinese-line { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="header-emblem">⚡🔥🌸</div>
+  <div class="header-title-th">บ้านหมื่นมงคล</div>
+  <div class="header-title-zh">萬吉堂 • 哪吒三太子</div>
+  <div class="header-subtitle">บ่วงปอตึ้ง • 萬吉堂簽詩</div>
+  <div class="header-divider"><span>✦</span></div>
+</header>
+
+<!-- Controls -->
+<div class="controls">
+  <span class="filter-label">กรอง:</span>
+  <button class="btn active" onclick="filterCards('all')">ทั้งหมด (27)</button>
+  <button class="btn" onclick="filterCards('สูง')">🟢 สูง</button>
+  <button class="btn" onclick="filterCards('ดี')">🟡 ดี</button>
+  <button class="btn" onclick="filterCards('กลาง')">🔵 กลาง</button>
+  <button class="btn" onclick="filterCards('ต่ำ')">🔴 ต่ำ</button>
+</div>
+
+<!-- Cards Grid -->
+<div class="grid" id="grid"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-card" id="modal-card">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div style="background:linear-gradient(135deg,var(--crimson),#5C0000);padding:16px 24px;border-bottom:2px solid var(--gold-dark);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--gold-light);letter-spacing:3px;">บ้านหมื่นมงคล</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:11px;color:rgba(245,215,110,0.7);letter-spacing:5px;margin-top:2px;">萬吉堂 • 哪吒三太子</div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const slips = [
+  { num:1, level:"สูง", tones:"กลาง กลาง กลาง",
+    thai:["กลางสามหนช่วยดลให้ศักดิ์สิทธิ์","เทพผู้ทรงฤทธิ์ ชักนำช่วยรักษา","ให้สมรักสมหวัง สำเร็จเจตนา","สมอุราแล้วอย่าลืมมาตอบแทน"],
+    chinese:["三度居中神力显，","天神护佑引吉祥。","心愿得偿情志满，","莫忘还愿报神恩。"],
+    pinyin:"Sān dù jū zhōng shén lì xiǎn, tiān shén hù yòu yǐn jí xiáng. Xīn yuàn dé cháng qíng zhì mǎn, mò wàng huán yuàn bào shén ēn."},
+  { num:2, level:"สูง", tones:"หงาย หงาย หงาย",
+    thai:["สามหงายสบายใจ หายเดือดร้อน","จงผันผ่อนตามเวลาให้เหมาะสม","เทพชูช่วยรวยทรัพย์ไม่อับจน","ผลบุญตนส่งมาชะตาดี"],
+    chinese:["三仰心安热恼消，","顺时而行莫性急。","神明佑助财源广，","福德因缘命运佳。"],
+    pinyin:"Sān yǎng xīn ān rè nǎo xiāo, shùn shí ér xíng mò xìng jí. Shén míng yòu zhù cái yuán guǎng, fú dé yīn yuán mìng yùn jiā."},
+  { num:3, level:"ต่ำ", tones:"คว่ำ คว่ำ คว่ำ",
+    thai:["ความทุกข์ยากลำบากอยู่ข้างหน้า","หมองพักตรากลุ้มจิตให้ผิดหวัง","ด้วยโชคร้ายสุดเหลียว เปลี่ยนชีวัน","เหลือกำลังดาวเคราะห์พอเหมาะมี"],
+    chinese:["前路坎坷苦难多，","愁眉苦脸心灰暗。","厄运当头运势低，","星煞虽重尚有余。"],
+    pinyin:"Qián lù kǎn kě kǔ nàn duō, chóu méi kǔ liǎn xīn huī àn. È yùn dāng tóu yùn shì dī, xīng shà suī zhòng shàng yǒu yú."},
+  { num:4, level:"สูง", tones:"กลาง กลาง หงาย",
+    thai:["เห็นสีทองส่องฟ้าเมื่อคราสาง","แสงสว่างเริ่มหวยพุ่งรุ่งเวหน","ถ้าถามยศได้ที่ยอดขุนพล","ชะตาคนค้าขายก็ได้ดี"],
+    chinese:["曙光初照金色现，","霞光万丈破云霄。","问仕途者位高升，","商贾之人运亦昌。"],
+    pinyin:"Shǔ guāng chū zhào jīn sè xiàn, xiá guāng wàn zhàng pò yún xiāo. Wèn shì tú zhě wèi gāo shēng, shāng gǔ zhī rén yùn yì chāng."},
+  { num:5, level:"สูง", tones:"หงาย กลาง กลาง",
+    thai:["หมายขุนนางหวังได้ ตามกำหนด","เรื่องร้อนหมด เปลื้องทุกข์เป็นสุขี","ถามลาภยศว่าได้ สมใจดี","ทรัพย์มากมี ค้าขายได้กำไรงาม"],
+    chinese:["官位爵禄如期至，","忧愁散去乐无忧。","问禄问名皆称意，","经商贸易利润丰。"],
+    pinyin:"Guān wèi jué lù rú qī zhì, yōu chóu sàn qù lè wú yōu. Wèn lù wèn míng jiē chèn yì, jīng shāng mào yì lì rùn fēng."},
+  { num:6, level:"กลาง", tones:"คว่ำ กลาง หงาย",
+    thai:["ทั้งสี่ทิศจัดไว้หลายหลายท่า","เหมือนพ่อค้าเที่ยวจรร่อนเร่ขาย","เพื่อทรัพย์สินเศษศักดิ์ ประดับกาย","ของที่หมายได้มาราคาทอง"],
+    chinese:["四方奔走谋生计，","行商坐贾走四方。","为求财物饰身用，","所愿之物价值千金。"],
+    pinyin:"Sì fāng bēn zǒu móu shēng jì, xíng shāng zuò gǔ zǒu sì fāng. Wèi qiú cái wù shì shēn yòng, suǒ yuàn zhī wù jià zhí qiān jīn."},
+  { num:7, level:"กลาง", tones:"กลาง คว่ำ กลาง",
+    thai:["มีกุศลผลบุญหนุนอยู่มาก","ไม่ควรจักรีบร้อนแสวงผล","รู้ว่าป่า เสือดุ คอยกินขบ","จะดิ้นรนเข้าป่าหาอะไร"],
+    chinese:["福德深厚善根多，","切莫急躁求速成。","林中猛虎守伺机，","何必闯险自寻危。"],
+    pinyin:"Fú dé shēn hòu shàn gēn duō, qiē mò jí zào qiú sù chéng. Lín zhōng měng hǔ shǒu sì jī, hé bì chuǎng xiǎn zì xún wēi."},
+  { num:8, level:"ต่ำ", tones:"หงาย คว่ำ คว่ำ",
+    thai:["สิ่งที่ดีเคยทำ ควรทำก่อน","อย่าเร่งร้อนเชื่อผู้ใดไม่เกิดผล","ถ้าขึ้นเชื่อเคราะห์ร้ายจะร้อนรน","จะผ่อนตนเชื่อเราจึงเบาใจ"],
+    chinese:["善事当先莫迟疑，","轻信他人难成事。","若听谗言厄运临，","自信自强心自安。"],
+    pinyin:"Shàn shì dāng xiān mò chí yí, qīng xìn tā rén nán chéng shì. Ruò tīng chán yán è yùn lín, zì xìn zì qiáng xīn zì ān."},
+  { num:9, level:"ต่ำ", tones:"คว่ำ หงาย คว่ำ",
+    thai:["เสียเงินยังคิดหวัง ถ้าเสียรัก","อกหัก เพราะไม่ได้อย่างใจหมาย","ความฝันหวานนั้นหนามากกลับกลาย","แสนเสียดายไม่สมอารมณ์ปอง"],
+    chinese:["失财尚可再图谋，","情断心碎最难熬。","甜梦反成刺中刺，","万般遗憾难如愿。"],
+    pinyin:"Shī cái shàng kě zài tú móu, qíng duàn xīn suì zuì nán áo. Tián mèng fǎn chéng cì zhōng cì, wàn bān yí hàn nán rú yuàn."},
+  { num:10, level:"สูง", tones:"กลาง คว่ำ คว่ำ",
+    thai:["การทำราชการงานเมืองปราดเปรื่องนัก","ได้เลื่อนที่ยศศักดิ์ มีเกียรติสูง","สำเร็จผลปรารถนาโชคพาจูง","ถ้าเพื่อนฝูง ทรัพย์สิน ควรยินดี"],
+    chinese:["为官从政才干显，","官升爵进名声扬。","所求所愿运来牵，","朋友财富皆可喜。"],
+    pinyin:"Wéi guān cóng zhèng cái gàn xiǎn, guān shēng jué jìn míng shēng yáng. Suǒ qiú suǒ yuàn yùn lái qiān, péng yǒu cái fù jiē kě xǐ."},
+  { num:11, level:"สูง", tones:"หงาย กลาง หงาย",
+    thai:["ไปล้าขายกลับมาบิดา","มีมากสูง ทรัพย์สินมหาศาล","พระอุปถัมภ์ค้ำจุน บุญบันดาล","ได้สำราญ สุขเกษมให้ปรมปรีดิ์"],
+    chinese:["千里经商归故里，","财富丰盈积累高。","神明护持福缘至，","安乐吉祥享太平。"],
+    pinyin:"Qiān lǐ jīng shāng guī gù lǐ, cái fù fēng yíng jī lèi gāo. Shén míng hù chí fú yuán zhì, ān lè jí xiáng xiǎng tài píng."},
+  { num:12, level:"สูง", tones:"คว่ำ คว่ำ หงาย",
+    thai:["ทั่วแผ่นดินไปได้ไม่ขัดสน","ไม่อับจน ดีทั่วไม่มัวหมอง","อำนาจให้ได้สม อารมณ์ปอง","ที่หมั่นหมองกลับดี มีมาเอง"],
+    chinese:["天下行走无阻碍，","不愁不困处处通。","权威如意心所愿，","阴云散去福自来。"],
+    pinyin:"Tiān xià xíng zǒu wú zǔ ài, bù chóu bù kùn chù chù tōng. Quán wēi rú yì xīn suǒ yuàn, yīn yún sàn qù fú zì lái."},
+  { num:13, level:"สูง", tones:"กลาง หงาย คว่ำ",
+    thai:["เทพอุปถัมภ์นำรัก ประจักษ์เรื่อง","พระราชานั่งเมือง เจริญศรี","บัลลังก์ทองงามสง่า ไร้ราคี","ประชาชีกราบบูชา สาธุการ"],
+    chinese:["神明护佑显威灵，","圣主临朝国运昌。","金殿辉煌无瑕秽，","万民朝拜颂吉祥。"],
+    pinyin:"Shén míng hù yòu xiǎn wēi líng, shèng zhǔ lín cháo guó yùn chāng. Jīn diàn huī huáng wú xiá huì, wàn mín cháo bài sòng jí xiáng."},
+  { num:14, level:"สูง", tones:"หงาย หงาย คว่ำ",
+    thai:["หมู่ทวยเทพฟ้าดินสิ้นทั้งหลาย","คอยช่วยให้ชูอุ้ม อุปถัมภ์","ด้วยความดีสร้างมาแต่บางบรรพ์","ความสำคัญทุกสิ่งจะสมปอง"],
+    chinese:["天地诸神齐护佑，","扶持提携不离身。","善德积累自先世，","万事重要皆如愿。"],
+    pinyin:"Tiān dì zhū shén qí hù yòu, fú chí tí xié bù lí shēn. Shàn dé jī lèi zì xiān shì, wàn shì zhòng yào jiē rú yuàn."},
+  { num:15, level:"ต่ำ", tones:"คว่ำ คว่ำ กลาง",
+    thai:["ความหวังมุ่งหมายนั้นสูงเสียด","เปรียบนกยูงหล่นลงตรงกลางหนอง","เหมือนทำการสิ่งใด ไม่ไตร่ตรอง","จะมัวหมองลนลาน รำคาญใจ"],
+    chinese:["志向高远难触及，","恰似孔雀落泥塘。","行事莽撞不思量，","烦乱迷茫心自苦。"],
+    pinyin:"Zhì xiàng gāo yuǎn nán chù jí, qià sì kǒng què luò ní táng. Xíng shì mǎng zhuàng bù sī liàng, fán luàn mí máng xīn zì kǔ."},
+  { num:16, level:"ต่ำ", tones:"กลาง หงาย หงาย",
+    thai:["เสียงโหยหวนร่ำไห้วิเวกหา","โชคร้อยมา โชคดีสิ้น มลายสูญ","วันนี้ดี พรุ่งนี้ซ้ำ ทวีคูณ","จะอาดูร สงบใจให้ระวัง"],
+    chinese:["哀声哭泣苦凄凉，","好运百来善运尽。","今日顺遂明日苦，","忧愁之中需谨慎。"],
+    pinyin:"Āi shēng kū qì kǔ qī liáng, hǎo yùn bǎi lái shàn yùn jìn. Jīn rì shùn suí míng rì kǔ, yōu chóu zhī zhōng xū jǐn shèn."},
+  { num:17, level:"ดี", tones:"หงาย กลาง คว่ำ",
+    thai:["สิบปีกาลผ่านมา ดูช้านาน","เคราะห์จึงผ่านพ้นไป ไม่มีเหลือ","สิ้นเคราะห์โรค โรคภัยมีมาเจือ","สุดท้ายเหลือแต่สุข หมดทุกข์ภัย"],
+    chinese:["十载光阴慢慢过，","厄运终于烟云散。","病灾虽曾来侵扰，","最终留下唯有福。"],
+    pinyin:"Shí zài guāng yīn màn màn guò, è yùn zhōng yú yān yún sàn. Bìng zāi suī céng lái qīn rǎo, zuì zhōng liú xià wéi yǒu fú."},
+  { num:18, level:"ดี", tones:"คว่ำ กลาง กลาง",
+    thai:["เห็นดวงจันทร์ วันเพ็ญ กระจ่างฟ้า","ในใต้หล้าสว่างทั่ว ไม่มัวหมอง","ได้พบคู่ชื่นชมสมใจปอง","นั่งประคองสมสุขทุกราตรี"],
+    chinese:["望见明月照中天，","大地光明无遮蔽。","得遇良缘称心意，","相伴相守夜夜欢。"],
+    pinyin:"Wàng jiàn míng yuè zhào zhōng tiān, dà dì guāng míng wú zhē bì. Dé yù liáng yuán chèn xīn yì, xiāng bàn xiāng shǒu yè yè huān."},
+  { num:19, level:"ปานกลาง", tones:"กลาง กลาง คว่ำ",
+    thai:["อันเพชรนิลจินดาที่ล้ำค่า","อยู่ในป่าเขาเหว ห้วยระหาร","โชคไม่ช่วยไร้ผล มิพบพาน","ครั้นถึงกาลคงได้ เมื่อปลายมือ"],
+    chinese:["奇珍异宝价无双，","深藏山谷难寻觅。","时运未至枉费力，","待到时机终得手。"],
+    pinyin:"Qí zhēn yì bǎo jià wú shuāng, shēn cáng shān gǔ nán xún mì. Shí yùn wèi zhì wǎng fèi lì, dài dào shí jī zhōng dé shǒu."},
+  { num:20, level:"กลาง", tones:"หงาย คว่ำ กลาง",
+    thai:["เมื่อฝนมาฟ้าฉ่ำยังไม่สม","ต้องคอยลมพัดพา เมฆขยาย","ถามโชคลาภมีบ้างพอประปราย","จะสมหมายคลายทุกข์ เมื่อปลายมือ"],
+    chinese:["雨来天润尚未足，","等待风吹云散开。","问财问福偶有得，","苦尽甘来待末路。"],
+    pinyin:"Yǔ lái tiān rùn shàng wèi zú, děng dài fēng chuī yún sàn kāi. Wèn cái wèn fú ǒu yǒu dé, kǔ jìn gān lái dài mò lù."},
+  { num:21, level:"สูง", tones:"คว่ำ กลาง คว่ำ",
+    thai:["เหมือนแดร่งรำคอยฝน ท่านไม่ไหว","เที่ยวทิ้งใบแล้กิ่ง แล้วหนักหนา","คอยให้พอได้ฝนมา โปรยลงมา","เย็นอุรา แตกใบอ่อน ค่อยผ่อนคลาย"],
+    chinese:["枯枝盼雨苦等待，","落叶纷飞负重压。","静候甘霖轻洒落，","心凉叶嫩渐舒怀。"],
+    pinyin:"Kū zhī pàn yǔ kǔ děng dài, luò yè fēn fēi fù zhòng yā. Jìng hòu gān lín qīng sǎ luò, xīn liáng yè nèn jiàn shū huái."},
+  { num:22, level:"ต่ำ", tones:"กลาง คว่ำ หงาย",
+    thai:["เหมือนรักเราคอยอยู่ เป็นคู่ชื่น","ทุกวันคืนเคยร่วมจิตพิสมัย","ด้วยมีกรรมทำให้พราก จึงจากไกล","ให้อาลัยแยกมา เอกากาย"],
+    chinese:["曾经相爱情相依，","日日夜夜心相知。","业障缘尽终别离，","孤身独处泪长垂。"],
+    pinyin:"Céng jīng xiāng ài qíng xiāng yī, rì rì yè yè xīn xiāng zhī. Yè zhàng yuán jìn zhōng bié lí, gū shēn dú chǔ lèi cháng chuí."},
+  { num:23, level:"กลาง", tones:"หงาย หงาย กลาง",
+    thai:["เหมือนเดินเรือแล่นใบในสมุทร","ไม่สิ้นสุดลมปั้นให้หันหวน","มุ่งทิศเหนือ กลับใต้ ย้ายแปรปรวน","จงใครครวญให้เหมาะสม พิเคราะห์ดู"],
+    chinese:["扬帆大海随风漂，","无尽海风旋转吹。","忽北忽南方向变，","细思量后择良途。"],
+    pinyin:"Yáng fān dà hǎi suí fēng piāo, wú jìn hǎi fēng xuán zhuǎn chuī. Hū běi hū nán fāng xiàng biàn, xì sī liàng hòu zé liáng tú."},
+  { num:24, level:"กลาง", tones:"คว่ำ หงาย กลาง",
+    thai:["อันไก่ขันบอกเวลา หมายฟ้าสาง","ดาวยังไม่ส่องต้องเวหน","จะเดินทางต่อไป ยังมีดมน","ต้องคอยจนฟ้าสว่าง เห็นทางจร"],
+    chinese:["雄鸡报晓示天明，","群星尚未照苍穹。","前路仍有黑暗处，","且待天亮再启程。"],
+    pinyin:"Xióng jī bào xiǎo shì tiān míng, qún xīng shàng wèi zhào cāng qióng. Qián lù réng yǒu hēi àn chù, qiě dài tiān liàng zài qǐ chéng."},
+  { num:25, level:"ดี", tones:"กลาง หงาย กลาง",
+    thai:["คำทำนายทายว่า ไม่แน่นอน","ให้ยกย้อนดังชี้ให้เล็งเห็น","เหมือนเดือนมืดหายไป ดวงจันทร์เพ็ญ","จึงได้เห็นแสงสว่างกระจ่างตา"],
+    chinese:["占卜之词难确定，","回顾细看方能明。","犹如暗夜月圆现，","光明灿烂照眼来。"],
+    pinyin:"Zhān bǔ zhī cí nán què dìng, huí gù xì kàn fāng néng míng. Yóu rú àn yè yuè yuán xiàn, guāng míng càn làn zhào yǎn lái."},
+  { num:26, level:"กลาง", tones:"คว่ำ หงาย กลาง",
+    thai:["เมื่อคู่รักจากกัน ประมาณปี","ยังไม่มีความหวังดังประสงค์","จะสมหมาย สมจิต เจตจำนง","กะไว้คงเดือนเจ็ด สำเร็จการณ์"],
+    chinese:["情人离别已一年，","心愿未遂盼望空。","若求情意皆如意，","七月之期事方成。"],
+    pinyin:"Qíng rén lí bié yǐ yī nián, xīn yuàn wèi suì pàn wàng kōng. Ruò qiú qíng yì jiē rú yì, qī yuè zhī qī shì fāng chéng."},
+  { num:27, level:"สูง", tones:"คว่ำ หงาย หงาย",
+    thai:["ถามข้าฯบอกให้ จักได้รู้","พิเคราะห์ดูโชคดี หลายสถาน","แม้นมุ่งหวังสิ่งใด ต้องได้การ","แสนสำราญมากมี ยินดีเอย"],
+    chinese:["问我答汝汝可知，","细看运势处处佳。","所求所愿皆得成，","万事如意喜乐哉。"],
+    pinyin:"Wèn wǒ dá rǔ rǔ kě zhī, xì kàn yùn shì chù chù jiā. Suǒ qiú suǒ yuàn jiē dé chéng, wàn shì rú yì xǐ lè zāi."}
+];
+
+// Generate Nezha SVG as warrior background
+function nezhaWarriorSVG(num) {
+  const seed = num * 137;
+  const flameH = 60 + (seed % 30);
+  return `
+  <svg viewBox="0 0 200 340" xmlns="http://www.w3.org/2000/svg" class="nezha-svg">
+    <defs>
+      <radialGradient id="aura${num}" cx="50%" cy="70%" r="50%">
+        <stop offset="0%" stop-color="#D4A017" stop-opacity="0.5"/>
+        <stop offset="50%" stop-color="#8B0000" stop-opacity="0.2"/>
+        <stop offset="100%" stop-color="#8B0000" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="glow${num}">
+        <feGaussianBlur stdDeviation="2" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Aura halo -->
+    <ellipse cx="100" cy="240" rx="70" ry="100" fill="url(#aura${num})"/>
+
+    <!-- Lotus platform -->
+    <ellipse cx="100" cy="305" rx="55" ry="14" fill="#D4A017" opacity="0.6"/>
+    <ellipse cx="100" cy="300" rx="48" ry="10" fill="#F5D76E" opacity="0.4"/>
+    <!-- Lotus petals -->
+    ${[0,45,90,135,180,225,270,315].map((a,i) => {
+      const rad = a * Math.PI/180;
+      const px = 100 + Math.cos(rad)*44;
+      const py = 300 + Math.sin(rad)*11;
+      return `<ellipse cx="${px}" cy="${py}" rx="10" ry="5" fill="#D4A017" opacity="0.5" transform="rotate(${a},${px},${py})"/>`;
+    }).join('')}
+
+    <!-- Legs / Wind Fire Wheels -->
+    <!-- Left wheel -->
+    <circle cx="68" cy="278" r="20" fill="none" stroke="#D4A017" stroke-width="2.5" opacity="0.8"/>
+    <circle cx="68" cy="278" r="14" fill="none" stroke="#8B0000" stroke-width="1.5" opacity="0.6"/>
+    <line x1="68" y1="258" x2="68" y2="298" stroke="#D4A017" stroke-width="1.5" opacity="0.7"/>
+    <line x1="48" y1="278" x2="88" y2="278" stroke="#D4A017" stroke-width="1.5" opacity="0.7"/>
+    <!-- Right wheel -->
+    <circle cx="132" cy="278" r="20" fill="none" stroke="#D4A017" stroke-width="2.5" opacity="0.8"/>
+    <circle cx="132" cy="278" r="14" fill="none" stroke="#8B0000" stroke-width="1.5" opacity="0.6"/>
+    <line x1="132" y1="258" x2="132" y2="298" stroke="#D4A017" stroke-width="1.5" opacity="0.7"/>
+    <line x1="112" y1="278" x2="152" y2="278" stroke="#D4A017" stroke-width="1.5" opacity="0.7"/>
+
+    <!-- Body / Robe -->
+    <path d="M 75 200 Q 60 220 62 265 L 80 270 Q 85 245 100 240 Q 115 245 120 270 L 138 265 Q 140 220 125 200 Z"
+      fill="#8B0000" stroke="#D4A017" stroke-width="1" opacity="0.9"/>
+    <!-- Robe pattern -->
+    <path d="M 80 210 Q 100 215 120 210" stroke="#D4A017" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M 78 220 Q 100 226 122 220" stroke="#D4A017" stroke-width="1" fill="none" opacity="0.5"/>
+
+    <!-- Red Armillary Sash (Qian Kun Quan) -->
+    <path d="M 65 190 Q 50 170 70 155 Q 90 140 100 160 Q 110 140 130 155 Q 150 170 135 190 Q 120 200 100 195 Q 80 200 65 190"
+      fill="none" stroke="#C0392B" stroke-width="3" opacity="0.8"/>
+    <path d="M 60 185 Q 100 210 140 185" stroke="#C0392B" stroke-width="2" fill="none" opacity="0.6"/>
+
+    <!-- Universe Ring (gold) -->
+    <ellipse cx="100" cy="165" rx="30" ry="8" fill="none" stroke="#D4A017" stroke-width="2.5" opacity="0.8" transform="rotate(-20,100,165)"/>
+
+    <!-- Arms -->
+    <!-- Left arm holding Fire-Tipped Spear -->
+    <path d="M 78 205 Q 55 195 40 170" stroke="#8B6914" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8"/>
+    <!-- Spear shaft -->
+    <line x1="40" y1="170" x2="22" y2="80" stroke="#8B6914" stroke-width="3" opacity="0.8"/>
+    <!-- Spear tip (fire) -->
+    <path d="M 22 80 L 15 55 L 22 65 L 28 45 L 22 60 L 30 72 Z" fill="#D4A017" opacity="0.9"/>
+    <path d="M 22 80 L 18 60 L 22 68 L 26 55 Z" fill="#C0392B" opacity="0.8"/>
+
+    <!-- Right arm extended -->
+    <path d="M 122 205 Q 148 190 162 165" stroke="#8B6914" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8"/>
+    <!-- Hand with gold bracelet -->
+    <circle cx="162" cy="162" r="7" fill="#8B6914" opacity="0.7"/>
+    <circle cx="162" cy="162" r="5" fill="none" stroke="#D4A017" stroke-width="2" opacity="0.8"/>
+
+    <!-- Neck -->
+    <rect x="94" y="170" width="12" height="16" rx="4" fill="#C9A87C" opacity="0.8"/>
+
+    <!-- Head -->
+    <ellipse cx="100" cy="158" rx="22" ry="24" fill="#C9A87C" stroke="#8B6914" stroke-width="1" opacity="0.9"/>
+
+    <!-- Face details -->
+    <circle cx="92" cy="153" r="3" fill="#4A2010" opacity="0.7"/>
+    <circle cx="108" cy="153" r="3" fill="#4A2010" opacity="0.7"/>
+    <!-- Eyebrows (fierce) -->
+    <path d="M 88 148 L 96 150" stroke="#3A1810" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 104 150 L 112 148" stroke="#3A1810" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    <!-- Mouth -->
+    <path d="M 95 162 Q 100 166 105 162" stroke="#8B4040" stroke-width="1.5" fill="none" opacity="0.7"/>
+
+    <!-- Head ornament / Crown -->
+    <path d="M 85 138 Q 88 120 100 115 Q 112 120 115 138"
+      fill="#8B0000" stroke="#D4A017" stroke-width="1.5" opacity="0.9"/>
+    <!-- Central jewel -->
+    <circle cx="100" cy="122" r="6" fill="#D4A017" opacity="0.9"/>
+    <circle cx="100" cy="122" r="4" fill="#F5D76E" opacity="0.8"/>
+    <!-- Crown peaks -->
+    <path d="M 88 130 L 84 112 L 92 125 Z" fill="#D4A017" opacity="0.7"/>
+    <path d="M 112 130 L 116 112 L 108 125 Z" fill="#D4A017" opacity="0.7"/>
+
+    <!-- Hair / Side ribbons -->
+    <path d="M 82 138 Q 68 130 70 115 Q 72 105 80 108" fill="none" stroke="#3A1810" stroke-width="3" opacity="0.6"/>
+    <path d="M 118 138 Q 132 130 130 115 Q 128 105 120 108" fill="none" stroke="#3A1810" stroke-width="3" opacity="0.6"/>
+
+    <!-- Flames (Wind Fire Wheels aura) -->
+    ${[...Array(6)].map((_, i) => {
+      const angle = (i / 6) * Math.PI * 2;
+      const fx = 68 + Math.cos(angle) * 22;
+      const fy = 278 + Math.sin(angle) * 22;
+      return `<path d="M ${fx} ${fy} Q ${fx+4} ${fy-10} ${fx+2} ${fy-18} Q ${fx-2} ${fy-10} ${fx} ${fy}" fill="#D4A017" opacity="0.6"/>`;
+    }).join('')}
+    ${[...Array(6)].map((_, i) => {
+      const angle = (i / 6) * Math.PI * 2;
+      const fx = 132 + Math.cos(angle) * 22;
+      const fy = 278 + Math.sin(angle) * 22;
+      return `<path d="M ${fx} ${fy} Q ${fx+4} ${fy-10} ${fx+2} ${fy-18} Q ${fx-2} ${fy-10} ${fx} ${fy}" fill="#D4A017" opacity="0.6"/>`;
+    }).join('')}
+
+    <!-- Mystical clouds -->
+    <path d="M 20 180 Q 30 170 40 178 Q 45 165 58 172" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.3"/>
+    <path d="M 145 175 Q 158 165 165 173 Q 170 162 180 168" fill="none" stroke="#D4A017" stroke-width="1.5" opacity="0.3"/>
+    <path d="M 30 230 Q 42 220 52 228 Q 56 215 68 222" fill="none" stroke="#D4A017" stroke-width="1" opacity="0.25"/>
+    <path d="M 135 225 Q 148 215 158 223 Q 162 210 175 217" fill="none" stroke="#D4A017" stroke-width="1" opacity="0.25"/>
+
+    <!-- Magical sparks -->
+    ${[...Array(8)].map((_, i) => {
+      const sx = 20 + (i * 23 + seed) % 160;
+      const sy = 60 + (i * 31 + seed) % 200;
+      return `<circle cx="${sx}" cy="${sy}" r="${1 + i%2}" fill="#D4A017" opacity="${0.2 + (i%3)*0.1}"/>`;
+    }).join('')}
+  </svg>`;
+}
+
+function getLevelClass(level) {
+  if (level.includes('สูง')) return 'level-สูง';
+  if (level === 'ดี') return 'level-ดี';
+  if (level.includes('กลาง')) return 'level-กลาง';
+  if (level === 'ต่ำ') return 'level-ต่ำ';
+  return 'level-ปานกลาง';
+}
+
+function buildCard(slip) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.dataset.level = slip.level;
+  div.onclick = () => openModal(slip);
+
+  div.innerHTML = `
+    <div class="card-glow"></div>
+    <div class="card-inner">
+      <div class="card-bg">
+        <div class="lotus-pattern"></div>
+        <div class="card-bg-gradient"></div>
+        <div class="card-aura"></div>
+        <div class="card-clouds"></div>
+        <div class="nezha-art">${nezhaWarriorSVG(slip.num)}</div>
+      </div>
+
+      <div class="card-frame"></div>
+      <div class="card-frame card-frame-corners"></div>
+
+      <!-- Top Banner -->
+      <div class="card-top-banner">
+        <div class="banner-th">🏮 บ้านหมื่นมงคล 🏮</div>
+        <div class="banner-zh">萬吉堂 • 哪吒三太子 • บ่วงปอตึ้ง</div>
+      </div>
+
+      <!-- Number -->
+      <div class="slip-number">
+        <div class="slip-num-circle"><span>${slip.num}</span></div>
+      </div>
+
+      <!-- Level -->
+      <div class="slip-level">
+        <div class="level-pill ${getLevelClass(slip.level)}">ดวง${slip.level}</div>
+        <div class="tones-text">${slip.tones}</div>
+      </div>
+
+      <div class="divider-ornament">❧ ✦ ❧</div>
+
+      <!-- Thai verse -->
+      <div class="verse-section">
+        <div class="verse-line">
+          ${slip.thai.map(l => l).join('<br>')}
+        </div>
+      </div>
+
+      <div class="card-sep"></div>
+
+      <!-- Chinese verse -->
+      <div class="chinese-section">
+        <div class="chinese-label">簽 詩</div>
+        <div class="chinese-line">
+          ${slip.chinese.map(l => l).join('<br>')}
+        </div>
+      </div>
+
+      <!-- Bottom seal -->
+      <div class="card-seal">
+        <div class="seal-circle">吉</div>
+      </div>
+    </div>
+  `;
+  return div;
+}
+
+function openModal(slip) {
+  const body = document.getElementById('modal-body');
+  body.innerHTML = `
+    <div class="modal-num">ใบที่ / 第 ${slip.num} 签</div>
+    <div class="modal-title-th">ดวง${slip.level} — ${slip.tones}</div>
+    <div class="modal-sep"></div>
+    <div class="modal-section-label">【ภาษาไทย】THAI VERSE</div>
+    <div class="modal-thai-verse">${slip.thai.join('<br>')}</div>
+    <div class="modal-sep"></div>
+    <div class="modal-section-label">【汉语】CHINESE VERSE</div>
+    <div class="modal-chinese-verse">${slip.chinese.join('<br>')}</div>
+    <div class="modal-pinyin">${slip.pinyin}</div>
+    <button class="btn-print" onclick="window.print()">🖨️ พิมพ์ใบนี้ / 打印此签</button>
+  `;
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+let currentFilter = 'all';
+function filterCards(level) {
+  currentFilter = level;
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    const cardLevel = card.dataset.level;
+    if (level === 'all' || cardLevel.includes(level)) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// Build all cards
+const grid = document.getElementById('grid');
+slips.forEach(slip => grid.appendChild(buildCard(slip)));
+
+// Keyboard close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+</script>
+</body>
+</html>
